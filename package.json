@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node build/index.js",
-    "dev": "ts-node-dev --ignore-watch node_modules index.ts"
+    "dev": "ts-node-dev --ignore-watch node_modules src/cli.ts"
   },
   "author": "Ananda Ferreira",
   "license": "ISC",
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "fs": "^0.0.1-security",
-    "inquirer": "^12.5.0"
+    "inquirer": "^12.5.0",
+    "sqlite3": "^5.1.7"
   }
 }

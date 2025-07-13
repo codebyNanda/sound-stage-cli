@@ -1,34 +1,24 @@
-import { input } from '@inquirer/prompts'
+import { input, select } from '@inquirer/prompts'
 import { Artist } from "../classes/artist"
+import { createArtist } from './createArtist'
 
-export async function updateArtist() {
+export async function updateArtist(artists: Artist[]) {
 
-  const initialInput = await input({ message: 'Digite ' })
+  const inputName = await input({ message: 'Digite o nome do artista que deseja atualizar: '})
 
-  const resultArtist = new Artist({
-    name: inputName,
-    genre: inputGenre,
-    country: inputCountry,
-  },
-    inputRecordLabels
-  ) 
+  const answer = await select({
+  message: 'Selecione a informação que deseja atualizar: ',
+  choices: [
+    {
+      name: 'Nome',
+      value: '',
+      description: 'Nome do artista'
+    },
+    // {
+    //   name: 'Estilo',
+    //   value: artist.values.genre,
+    //   description: 'yarn is an awesome package manager',
+    // },
+  ]})
 
-  const inputName = await input({ message: 'Informe o nome do artista ou banda que deseja cadastrar: '})
-  
-  const inputCountry = await input({ message: 'País: '})
-
-  const inputGenre = await input({ message: 'Qual o estilo de música? '})
-  
-  const inputRecordLabels = await input({ message: 'Digite a gravadora responsável: '})
-    
-
-  const creatingArtistData = new Artist({
-    name: inputName,
-    genre: inputGenre,
-    country: inputCountry,
-  },
-    inputRecordLabels
-  )
-
-  return creatingArtistData
 }
