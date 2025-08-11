@@ -1,6 +1,6 @@
 export interface InputMusicBase {
   name: string
-  genre?: string
+  genre: string
   country: string
 }
 

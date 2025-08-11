@@ -1,6 +1,9 @@
 import { Artist } from "../classes/artist"
 
 export interface IDatabaseConnector {
-  init(): Promise<void>
-  createArtist(artist: Artist): Promise<Artist>
+  init(): void
+  createArtist(artist: Artist): Promise<void>
+  getArtist(): Promise<Artist[]>
+  updateArtist(artist: Partial<Artist>): Promise<void>
+  deleteArtist(artist: Partial<Artist>): Promise<void>
 }

@@ -6,7 +6,6 @@ import { Artist } from "./classes/artist"
 import { updateArtist } from "./libraryOfArtistsCli/updateArtist"
 import { getArtist } from "./libraryOfArtistsCli/getArtist"
 // import { select, Separator } from '@inquirer/prompts'
-import db from './db/database'
 
 async function firstCli(): Promise<void> {
   console.log('Bem-vindo ao meu primeiro CLI!')

@@ -11,24 +11,24 @@ export abstract class MusicBase {
     this._country = inputBase.country
   } 
 
-  protected get name(): string {
+  public get name(): string {
     return this._name
   }
-  protected set name(value: string) {
+  public set name(value: string) {
     this._name = value
   }
 
-  protected get genre(): string {
+  public get genre(): string {
     return this._genre
   }
-  protected set genre(value: string) {
+  public set genre(value: string) {
     this._genre = value
   }
 
-  protected get country(): string {
+  public get country(): string {
     return this._country
   }
-  protected set country(value: string) {
+  public set country(value: string) {
     this._country = value
   }
 

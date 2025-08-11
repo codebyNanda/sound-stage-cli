@@ -2,32 +2,53 @@ import { InputMusicBase } from "../dto/inputMusicBase"
 import { MusicBase } from "./musicBase"
 
 export class Artist extends MusicBase {
-  private _recordLabels: string
-  private _yearOfFundation?: number | undefined
+  private _record_labels: string
+  private _year_of_foundation: number
 
   constructor(
     inputBase: InputMusicBase,
-    recordLabels: string,
-    yearOfFundation?: number
+    record_labels: string,
+    year_of_foundation: number
   ) {
     super(inputBase)
     
-    this._recordLabels = recordLabels
-    this._yearOfFundation = yearOfFundation
+    this._record_labels = record_labels
+    this._year_of_foundation = year_of_foundation
   }
 
-  public get recordLabels(): string {
-    return this._recordLabels
+  // public get name(): string {
+  //   return this.name
+  // }
+  // public set name(value: string) {
+  //   this.name = value
+  // }
+
+  // public get genre(): string {
+  //     return this.genre
+  // }
+  // public set genre(value: string) {
+  //     this.genre = value
+  // }
+
+  // public get country(): string {
+  //     return this.country
+  // }
+  // public set country(value: string) {
+  //     this.country = value
+  // }
+
+  public get record_labels(): string {
+    return this._record_labels
   }
-  public set recordLabels(value: string) {
-    this._recordLabels = value
+  public set record_labels(value: string) {
+    this._record_labels = value
   }
 
-  public get yearOfFundation(): number | undefined {
-    return this._yearOfFundation
+  public get year_of_foundation(): number {
+    return this._year_of_foundation
   }
-  public set yearOfFundation(value: number | undefined) {
-    this._yearOfFundation = value
+  public set year_of_foundation(value: number) {
+    this._year_of_foundation = value
   }
 
   addRecordLabel() {
