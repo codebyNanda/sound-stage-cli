@@ -1,24 +1,27 @@
-import { input } from '@inquirer/prompts'
+import { input, number } from '@inquirer/prompts'
 import { Artist } from "../classes/artist"
+import { IDatabaseConnector } from '../interfaces/iDatabaseConnector'
 
-export async function createArtist() {
+export async function createArtist(db: IDatabaseConnector) {
 
-  const inputName = await input({ message: 'Informe o nome do artista ou banda que deseja cadastrar: '})
+  const inputName = await input({ message: 'Nome do artista/banda que deseja cadastrar: '})
   
   const inputCountry = await input({ message: 'País: '})
 
-  const inputGenre = await input({ message: 'Qual o estilo de música? '})
+  const inputGenre = await input({ message: 'Estilo: '})
   
   const inputRecordLabels = await input({ message: 'Digite a gravadora responsável: '})
-    
 
-  const creatingArtistData = new Artist({
+  const inputYearOfFoundation = await number({ message: 'Ano de fundação: ', required: true })
+  
+  const artist = new Artist({
     name: inputName,
-    genre: inputGenre,
     country: inputCountry,
+    genre: inputGenre,
   },
-    inputRecordLabels
-  )
+  inputRecordLabels,
+  inputYearOfFoundation
+)
 
-  return creatingArtistData
+  return db.createArtist(artist)
 }

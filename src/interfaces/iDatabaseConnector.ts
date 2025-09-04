@@ -5,5 +5,5 @@ export interface IDatabaseConnector {
   createArtist(artist: Artist): Promise<void>
   getArtist(): Promise<Artist[]>
   updateArtist(artist: Partial<Artist>): Promise<void>
-  deleteArtist(artist: Partial<Artist>): Promise<void>
+  deleteArtist(name: string): Promise<void>
 }

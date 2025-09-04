@@ -3,32 +3,32 @@ import { DbSqlite } from "./DbSqlite";
 
 async function testeDb() {
   const db = new DbSqlite()
-  // db.init()
+  db.init()
   // db.createArtist(
   //   new Artist(
   //     {
-  //       name: 'Black Sabbath',
-  //       country: 'Reino Unido',
-  //       genre: 'Heavy Metal'
+  //       name: 'Candlemass',
+  //       country: 'Suécia',
+  //       genre: 'Doom Metal'
   //     },
-  //     'Mercury',
-  //     1968
+  //     'Napalm Records',
+  //     1985
   //   )
   // )
 
   // const artists = await db.getArtist()
   // console.log(artists)
 
-  // db.updateArtist({
-  //   genre: 'Black Metal',
-  //   country: 'Brazil',
-  //   name: 'Teste',
-  //   record_labels: 'Teste',
-  //   year_of_foundation:0
-  // })
+  db.updateArtist({
+    genre: 'Random',
+    country: 'Brazil',
+    name: 'Teste 4',
+    // record_labels: 'Teste',
+    // year_of_foundation:0
+  })
 
   // db.deleteArtist({
-  //   name: 'Teste'
+  //   name: 'Teste 3'
   // })
 
 }
