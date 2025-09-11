@@ -7,7 +7,6 @@ import { updateArtist } from "./libraryOfArtistsCli/updateArtist"
 import { getArtist } from "./libraryOfArtistsCli/getArtist"
 import { DbSqlite } from "./db/DbSqlite"
 import { deleteArtist } from "./libraryOfArtistsCli/deleteArtist"
-// import { select, Separator } from '@inquirer/prompts'
 
 async function firstCli(): Promise<void> {
   console.log('Bem-vindo ao meu primeiro CLI!')
@@ -15,7 +14,6 @@ async function firstCli(): Promise<void> {
   const db = new DbSqlite()
   
   while(true) {
-    let breakLoop = false
     await inquirer.prompt([
       {
         type: 'list',
@@ -27,16 +25,14 @@ async function firstCli(): Promise<void> {
     .then(async (answers) => {
       switch(answers.library) {
         case Actions.CreateArtist:
-          const resultArtist = await createArtist(db)
-          console.log(resultArtist)
+          await createArtist(db)
           break
         case Actions.UpdateArtist:
-          // const updating = await updateArtist(artists)
-          // console.log(updating)
+          await updateArtist(db)
           break
         case Actions.GetArtist:
-          // await getArtist(artists)
-          // console.log(artists)
+          await getArtist(db)
+          break
         case Actions.DeleteArtist:
           await deleteArtist(db)
           break
@@ -45,7 +41,6 @@ async function firstCli(): Promise<void> {
       }
     })
     .catch((err) => console.log(err)) 
-  if (breakLoop) break
   } 
 }
 firstCli()

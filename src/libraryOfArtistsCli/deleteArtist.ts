@@ -5,7 +5,11 @@ export async function deleteArtist(db: IDatabaseConnector) {
 
   const inputNameConfirm = await input({ message: 'Digite o nome do artista/banda que deseja deletar:' })
   
-  await confirm({ message: `Certeza que deseja excluir ${inputNameConfirm}?` })
+  const shouldList = await confirm({ message: `Certeza que deseja excluir ${inputNameConfirm}?` })
+
+  if (!shouldList) {
+    console.log('Usuário cancelou a exclusão.')
+  }
 
   return db.deleteArtist(
     inputNameConfirm
