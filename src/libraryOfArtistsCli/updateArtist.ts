@@ -1,6 +1,5 @@
 import { input, rawlist, select } from '@inquirer/prompts'
 import { Artist } from "../classes/artist"
-import { createArtist } from './createArtist'
 import { IDatabaseConnector } from '../interfaces/iDatabaseConnector'
 
 export async function updateArtist(db: IDatabaseConnector) {

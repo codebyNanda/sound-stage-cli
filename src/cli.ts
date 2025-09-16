@@ -1,8 +1,6 @@
-// import * as inquirer from 'inquirer'
 import inquirer from "inquirer"
 import { Actions } from './enum/actions'
 import { createArtist } from "./libraryOfArtistsCli/createArtist"
-import { Artist } from "./classes/artist"
 import { updateArtist } from "./libraryOfArtistsCli/updateArtist"
 import { getArtist } from "./libraryOfArtistsCli/getArtist"
 import { DbSqlite } from "./db/DbSqlite"
@@ -17,13 +15,13 @@ async function firstCli(): Promise<void> {
     await inquirer.prompt([
       {
         type: 'list',
-        name: 'library',
-        message: 'Escolha o que deseja realizar nesta biblioteca: ',
-        choices: [Actions.CreateArtist, Actions.UpdateArtist, Actions.GetArtist, Actions.DeleteArtist],
+        name: 'soundStagelibrary',
+        message: 'O que deseja realizar na sound stage cli? ',
+        choices: [Actions.CreateArtist, Actions.UpdateArtist, Actions.GetArtist, Actions.DeleteArtist, Actions.Exit],
       }
     ])
     .then(async (answers) => {
-      switch(answers.library) {
+      switch(answers.soundStagelibrary) {
         case Actions.CreateArtist:
           await createArtist(db)
           break
@@ -36,6 +34,8 @@ async function firstCli(): Promise<void> {
         case Actions.DeleteArtist:
           await deleteArtist(db)
           break
+        case Actions.Exit:
+          process.exit(0)
         default:
           console.log('Opção errada! Por favor tente novamente.')
       }

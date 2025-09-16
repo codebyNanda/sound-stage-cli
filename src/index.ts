@@ -49,38 +49,3 @@ const beGuitarist = new Guitarist(
   },
   ['Metallica']
 )
-
-
-// Salvando os dados em um arquivo JSON formatado
-const artists = [JSON.stringify(beArtist), beSinger, beDrummer, beGuitarist]
-const jsonData = JSON.stringify(artists, null, 2)
-const jsonArtist = JSON.stringify(beArtist, null, 2)
-const jsonSinger = JSON.stringify(beSinger, null, 2)
-// console.log(jsonArtist)
-
-
-// Escrevendo no arquivo JSON
-fs.writeFile('jsonData.json', jsonArtist, 'utf-8', (err: any) => {
-  if (err) {
-    console.error("Erro ao salvar o arquivo:", err)
-  } else {
-    console.log("Dados salvos com sucesso!")
-  }
-})
-
-
-// Lendo o arquivo JSON
-fs.readFile('jsonData.json', 'utf-8', (err: any, data: any) => {
-  if (err) {
-    console.error("Erro ao ler o arquivo:", err)
-    return
-  }
-
-// Convertendo JSON para objeto Javascript
-  const jsonRaw = JSON.parse(data)
-  console.log(jsonRaw[0])
-
-  const artist = JSON.parse(data) as Artist
-  artist.recordLabels
-  console.log(artist)
-})
