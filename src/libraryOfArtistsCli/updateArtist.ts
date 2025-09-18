@@ -1,6 +1,7 @@
 import { input, rawlist, select } from '@inquirer/prompts'
 import { Artist } from "../classes/artist"
 import { IDatabaseConnector } from '../interfaces/iDatabaseConnector'
+import { firstCli } from '../cli';
 
 export async function updateArtist(db: IDatabaseConnector) {
 
@@ -13,8 +14,13 @@ export async function updateArtist(db: IDatabaseConnector) {
       { name: 'Gênero musical', value: 'genre' },
       { name: 'Gravadora', value: 'record_labels' },
       { name: 'Ano de fundação', value: 'year_of_foundation' },
+      { name: 'Voltar ao menu inicial', value: 'exit' },
     ],
   });
+
+  if (field == 'exit') {
+    return
+  }
 
   let newValue: string | number = await input({
     message: `Digite o novo valor para ${field}: `

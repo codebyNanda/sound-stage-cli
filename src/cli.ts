@@ -6,7 +6,7 @@ import { getArtist } from "./libraryOfArtistsCli/getArtist"
 import { DbSqlite } from "./db/DbSqlite"
 import { deleteArtist } from "./libraryOfArtistsCli/deleteArtist"
 
-async function firstCli(): Promise<void> {
+export async function firstCli(): Promise<void> {
   console.log('Bem-vindo ao meu primeiro CLI!')
 
   const db = new DbSqlite()

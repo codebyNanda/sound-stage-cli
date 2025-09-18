@@ -139,6 +139,29 @@ export class DbSqlite implements IDatabaseConnector {
     })
   }
 
+  async getOneArtist(name: string): Promise<Artist | null> {
+    console.log('TESTANDO GET ONE')
+  return new Promise((resolve, reject) => {
+    this.db.get<Artist>(`SELECT * FROM artists WHERE name = ?`, [name], (err, row) => {
+      if (err) return reject(err)
+
+      if (!row) return resolve(null)
+
+      const artist = new Artist(
+        {
+          name: row.name,
+          genre: row.genre,
+          country: row.country
+        },
+        row.record_labels,
+        row.year_of_foundation
+      )
+
+      resolve(artist)
+    })
+  })
+}
+
   private generateUpdateQuery(artist: Partial<Artist>): { query: string; values: (string | number)[] } {
     const fields: string[] = []
     const values: (string | number)[] = []
