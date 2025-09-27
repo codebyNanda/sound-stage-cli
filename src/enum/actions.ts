@@ -1,11 +1,8 @@
 export enum Actions {
-  CreateArtist = 'Criar artista/banda',
-  UpdateArtist = 'Atualizar informações do artista/banda',
-  GetArtist = 'Listar artistas/bandas',
-  DeleteArtist = 'Deletar artista/banda',
+  CreateArtist = 'Criar um novo artista',
+  UpdateArtist = 'Atualizar informações do artista',
+  GetArtist = 'Listar todos os artistas',
+  GetOneArtist = 'Buscar por um artista',
+  DeleteArtist = 'Deletar artista',
   Exit = 'Sair'
-}
-
-export enum Operation {
-  Exit = 'Exit'
 }

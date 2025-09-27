@@ -1,29 +1,34 @@
-import { input, rawlist, select } from '@inquirer/prompts'
+import { input, rawlist } from '@inquirer/prompts'
 import { Artist } from "../classes/artist"
 import { IDatabaseConnector } from '../interfaces/iDatabaseConnector'
-import { firstCli } from '../cli';
 
-export async function updateArtist(db: IDatabaseConnector) {
+export async function updateArtist(db: IDatabaseConnector): Promise<void> {
 
-  const inputName = await input({ message: 'Nome do artista/banda que deseja atualizar: '})
+  const inputName = await input({ message: 'Nome do artista que deseja atualizar: '})
+
+   const choices = [
+      { name: 'País', value: 'country' },
+      { name: 'Estilo musical', value: 'genre' },
+      { name: 'Gravadora', value: 'record_labels' },
+      { name: 'Ano de fundação', value: 'year_of_foundation' },
+      { name: 'Voltar ao menu inicial', value: 'back' },
+    ]
 
   const field = await rawlist({
     message: 'Selecione a informação que deseja atualizar: ',
-    choices: [
-      { name: 'País', value: 'country' },
-      { name: 'Gênero musical', value: 'genre' },
-      { name: 'Gravadora', value: 'record_labels' },
-      { name: 'Ano de fundação', value: 'year_of_foundation' },
-      { name: 'Voltar ao menu inicial', value: 'exit' },
-    ],
-  });
+    choices
+  })
 
-  if (field == 'exit') {
+  const updatingOptions = new Map(
+    choices.map(choice => [choice.value, choice.name])
+  )
+
+  if (field == 'back') {
     return
   }
 
   let newValue: string | number = await input({
-    message: `Digite o novo valor para ${field}: `
+    message: `Digite o novo valor para ${updatingOptions.get(field)}: `
   })
 
   if (field === 'year_of_foundation') {
@@ -35,7 +40,5 @@ export async function updateArtist(db: IDatabaseConnector) {
     [field]: newValue
   }
 
-
-  console.log('Artista/banda atualizado!', updateData)
   return db.updateArtist(updateData)
 }

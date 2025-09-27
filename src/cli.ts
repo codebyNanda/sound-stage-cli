@@ -5,9 +5,10 @@ import { updateArtist } from "./libraryOfArtistsCli/updateArtist"
 import { getArtist } from "./libraryOfArtistsCli/getArtist"
 import { DbSqlite } from "./db/DbSqlite"
 import { deleteArtist } from "./libraryOfArtistsCli/deleteArtist"
+import { getOneArtist } from "./libraryOfArtistsCli/getOneArtist"
 
 export async function firstCli(): Promise<void> {
-  console.log('Bem-vindo ao meu primeiro CLI!')
+  console.log('🔥 Bem-vindo a Sound Stage Library CLI! 🔥')
 
   const db = new DbSqlite()
   
@@ -16,8 +17,15 @@ export async function firstCli(): Promise<void> {
       {
         type: 'list',
         name: 'soundStagelibrary',
-        message: 'O que deseja realizar na sound stage cli? ',
-        choices: [Actions.CreateArtist, Actions.UpdateArtist, Actions.GetArtist, Actions.DeleteArtist, Actions.Exit],
+        message: 'O que deseja fazer na Sound Stage Library? ',
+        choices: [
+          Actions.CreateArtist, 
+          Actions.UpdateArtist, 
+          Actions.GetArtist, 
+          Actions.DeleteArtist,
+          Actions.GetOneArtist, 
+          Actions.Exit
+        ],
       }
     ])
     .then(async (answers) => {
@@ -33,6 +41,9 @@ export async function firstCli(): Promise<void> {
           break
         case Actions.DeleteArtist:
           await deleteArtist(db)
+          break
+        case Actions.GetOneArtist:
+          await getOneArtist(db)
           break
         case Actions.Exit:
           process.exit(0)

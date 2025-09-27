@@ -1,4 +1,3 @@
-import { rejects } from "assert"
 import { Artist } from "../classes/artist"
 import { IDatabaseConnector } from "../interfaces/iDatabaseConnector"
 import sqlite3 from 'sqlite3'
@@ -61,8 +60,6 @@ export class DbSqlite implements IDatabaseConnector {
   }
 
   async createArtist(artist: Artist): Promise<void> {
-    console.log('TESTANDO CREATE')
-
     return new Promise((resolve, reject) => {
       this.db.run(
         `INSERT INTO artists (name, genre, country, record_labels, year_of_foundation) 
@@ -79,7 +76,7 @@ export class DbSqlite implements IDatabaseConnector {
             console.error('Erro ao inserir artista', err.message)
             return reject(err)
           } 
-          console.log('Artista inserido com sucesso')
+          console.log('Artista inserido com sucesso! 🔥')
           resolve() 
         }
       )
@@ -87,41 +84,44 @@ export class DbSqlite implements IDatabaseConnector {
   }
 
   async getArtist(): Promise<Artist[]> {
-    console.log('TESTANDO GET')
-  return new Promise((resolve, reject) => {
-    this.db.all<Artist>(`SELECT * FROM artists`, (err, rows) => {
-      if (err) return reject(err)
+    return new Promise((resolve, reject) => {
+      this.db.all<Artist>(`SELECT * FROM artists`, (err, rows) => {
+        if (err) return reject(err)
 
-      const artists = rows.map(row => new Artist(
-        {
-          name: row.name,
-          genre: row.genre,
-          country: row.country
-        },
-        row.record_labels,
-        row.year_of_foundation
-      ))
+        if (!rows || rows.length === 0) {
+          console.log('Nenhum artista encontrado.')
+          return resolve([])
+        }
 
-      resolve(artists)
+        const artists = rows.map(row => new Artist(
+          {
+            name: row.name,
+            genre: row.genre,
+            country: row.country
+          },
+          row.record_labels,
+          row.year_of_foundation
+        ))
+
+        resolve(artists)
+      })
     })
-  })
   }
 
   async updateArtist(artist: Partial<Artist>): Promise<void> {
-  console.log('TESTANDO UPDATE')
+    if (!artist.name) {
+      throw new Error('Nome do artista é obrigatório para atualizar. ⚠️')
+    }
 
-  if (!artist.name) {
-    throw new Error('Nome do artista é obrigatório para atualizar.')
-  }
+    const { query, values } = this.generateUpdateQuery(artist)
 
-  const { query, values } = this.generateUpdateQuery(artist)
-
-  return new Promise((resolve, reject) => {
-    this.db.run(query, values, (err) => {
-      if (err) return reject(err)
-      resolve()
+    return new Promise((resolve, reject) => {
+      this.db.run(query, values, (err) => {
+        if (err) return reject(err)
+        console.log('Artista atualizado com sucesso!')  
+        resolve()
+      })
     })
-  })
 }
 
   async deleteArtist(name: string): Promise<void> {
@@ -132,7 +132,7 @@ export class DbSqlite implements IDatabaseConnector {
          [name],
          (err) => {
           if (err) return reject(err)
-          console.log('Artista/banda deletado com sucesso.')
+          console.log('Artista deletado com sucesso.')
           resolve()
         }
       )
@@ -140,26 +140,25 @@ export class DbSqlite implements IDatabaseConnector {
   }
 
   async getOneArtist(name: string): Promise<Artist | null> {
-    console.log('TESTANDO GET ONE')
-  return new Promise((resolve, reject) => {
-    this.db.get<Artist>(`SELECT * FROM artists WHERE name = ?`, [name], (err, row) => {
-      if (err) return reject(err)
+    return new Promise((resolve, reject) => {
+      this.db.get<Artist>(`SELECT * FROM artists WHERE name = ?`, [name], (err, row) => {
+        if (err) return reject(err)
 
-      if (!row) return resolve(null)
+        if (!row) return resolve(null)
 
-      const artist = new Artist(
-        {
-          name: row.name,
-          genre: row.genre,
-          country: row.country
-        },
-        row.record_labels,
-        row.year_of_foundation
-      )
+        const artist = new Artist(
+          {
+            name: row.name,
+            genre: row.genre,
+            country: row.country
+          },
+          row.record_labels,
+          row.year_of_foundation
+        )
 
-      resolve(artist)
+        resolve(artist)
+      })
     })
-  })
 }
 
   private generateUpdateQuery(artist: Partial<Artist>): { query: string; values: (string | number)[] } {
