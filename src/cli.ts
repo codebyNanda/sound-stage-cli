@@ -1,11 +1,11 @@
 import inquirer from "inquirer"
 import { Actions } from './enum/actions'
-import { createArtist } from "./libraryOfArtistsCli/createArtist"
-import { updateArtist } from "./libraryOfArtistsCli/updateArtist"
-import { getArtist } from "./libraryOfArtistsCli/getArtist"
+import { createArtist } from "./artists/createArtist"
+import { updateArtist } from "./artists/updateArtist"
+import { getArtist } from "./artists/getArtist"
 import { DbSqlite } from "./db/DbSqlite"
-import { deleteArtist } from "./libraryOfArtistsCli/deleteArtist"
-import { getOneArtist } from "./libraryOfArtistsCli/getOneArtist"
+import { deleteArtist } from "./artists/deleteArtist"
+import { getOneArtist } from "./artists/getOneArtist"
 
 export async function firstCli(): Promise<void> {
   console.log('🔥 Bem-vindo a Sound Stage Library CLI! 🔥')

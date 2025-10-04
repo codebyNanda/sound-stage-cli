@@ -10,7 +10,7 @@ export async function createArtist(db: IDatabaseConnector): Promise<void> {
 
   const inputGenre = await input({ message: 'Estilo musical: '})
   
-  const inputRecordLabels = await input({ message: 'Gravadora responsável: '})
+  const inputRecordLabels = await input({ message: 'Gravadora: '})
 
   const inputYearOfFoundation = await number({ message: 'Ano de fundação: ', required: true })
   

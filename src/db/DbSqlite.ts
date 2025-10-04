@@ -33,12 +33,13 @@ export class DbSqlite implements IDatabaseConnector {
           }
         )
 
-        this.db.run(`CREATE TABLE IF NOT EXISTS albuns (
+        this.db.run(`CREATE TABLE IF NOT EXISTS albums (
           album_id INTEGER PRIMARY KEY AUTOINCREMENT,  
-          name VARCHAR NOT NULL,  
-          year INTEGER NOT NULL,  
+          name_of_album VARCHAR NOT NULL,
+          genre_of_album VARCHAR NOT NULL,
+          record_label VARCHAR,
           number_of_tracks INTEGER NOT NULL,  
-          record_label VARCHAR
+          year INTEGER NOT NULL
         );`,
           (err) => {
             if (err) return reject(err)
@@ -122,7 +123,7 @@ export class DbSqlite implements IDatabaseConnector {
         resolve()
       })
     })
-}
+  }
 
   async deleteArtist(name: string): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -134,8 +135,7 @@ export class DbSqlite implements IDatabaseConnector {
           if (err) return reject(err)
           console.log('Artista deletado com sucesso.')
           resolve()
-        }
-      )
+        })
     })
   }
 
@@ -159,7 +159,7 @@ export class DbSqlite implements IDatabaseConnector {
         resolve(artist)
       })
     })
-}
+  }
 
   private generateUpdateQuery(artist: Partial<Artist>): { query: string; values: (string | number)[] } {
     const fields: string[] = []

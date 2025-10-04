@@ -1,35 +1,21 @@
-import { InputMusicBase } from "../dto/inputMusicBase"
-import { MusicBase } from "./musicBase"
-
-export class Albums extends MusicBase {
-  nameofAlbum: string
-  year: number
-  numberOfTracks: number
+export class Albums {
+  nameOfAlbum: string
+  genreOfAlbum: string
   recordLabel: string
+  numberOfTracks: number
+  year: number
 
   constructor(
-    inputBase: InputMusicBase,
-    nameofAlbum: string,
-    year: number,
+    nameOfAlbum: string,
+    genreOfAlbum: string,
+    recordLabel: string,
     numberOfTracks: number,
-    recordLabel: string
+    year: number,
   ) {
-      super(inputBase)
-      this.nameofAlbum = nameofAlbum
-      this.year = year
-      this.numberOfTracks = numberOfTracks
+      this.nameOfAlbum = nameOfAlbum
+      this.genreOfAlbum = genreOfAlbum
       this.recordLabel = recordLabel
+      this.numberOfTracks = numberOfTracks
+      this.year = year
     }
-
-  play(): void {
-    console.log('We are Defenders of the Faith!')
-  }
-
-  composedBy(): void {
-    console.log('Composição por :: ')
-  }
-
-  lyrics() {
-    console.log('Letras de todas as faixas do álbum :: ')
-  }
 }

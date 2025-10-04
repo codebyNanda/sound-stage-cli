@@ -16,27 +16,6 @@ export class Artist extends MusicBase {
     this._year_of_foundation = year_of_foundation
   }
 
-  // public get name(): string {
-  //   return this.name
-  // }
-  // public set name(value: string) {
-  //   this.name = value
-  // }
-
-  // public get genre(): string {
-  //     return this.genre
-  // }
-  // public set genre(value: string) {
-  //     this.genre = value
-  // }
-
-  // public get country(): string {
-  //     return this.country
-  // }
-  // public set country(value: string) {
-  //     this.country = value
-  // }
-
   public get record_labels(): string {
     return this._record_labels
   }
@@ -49,9 +28,5 @@ export class Artist extends MusicBase {
   }
   public set year_of_foundation(value: number) {
     this._year_of_foundation = value
-  }
-
-  addRecordLabel() {
-    console.log('Adicionando gravadora :: ')
   }
 }
