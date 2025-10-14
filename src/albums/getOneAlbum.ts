@@ -1,8 +1,8 @@
-import { Albums } from "../classes/albums"
+import { Album } from "../classes/albums"
 import { IAlbumDatabase } from "../interfaces/iAlbumDatabase"
 import { input } from '@inquirer/prompts'
 
-export async function getOneAlbum(db: IAlbumDatabase): Promise<Albums | null> {
+export async function getOneAlbum(db: IAlbumDatabase): Promise<Album | null> {
 
   const inputName = await input({ message: 'Nome do álbum que deseja procurar: '})
 
@@ -15,10 +15,10 @@ export async function getOneAlbum(db: IAlbumDatabase): Promise<Albums | null> {
   console.log(`
     🎵 Álbum: 
 
-    Nome: ${album?.nameOfAlbum}
-    Gênero: ${album?.genreOfAlbum}
-    Gravadora: ${album?.recordLabel}
-    Número de faixas: ${album?.numberOfTracks}
+    Nome: ${album?.name}
+    Gênero: ${album?.genre}
+    Gravadora: ${album?.record_label}
+    Número de faixas: ${album?.tracks}
     Ano de lançamento: ${album?.year}
   `)
 

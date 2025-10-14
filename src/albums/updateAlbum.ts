@@ -1,15 +1,15 @@
 import { input, rawlist } from '@inquirer/prompts'
 import { IAlbumDatabase } from '../interfaces/iAlbumDatabase'
-import { Albums } from '../classes/albums'
+import { Album } from '../classes/albums'
 
 export async function updateAlbum(db: IAlbumDatabase): Promise<void> {
 
   const inputName = await input({ message: 'Nome do álbum que deseja atualizar: '})
 
    const choices = [
-      { name: 'Gênero', value: 'genre_of_album' },
+      { name: 'Gênero', value: 'genre' },
       { name: 'Gravadora', value: 'record_label' },
-      { name: 'Número de faixas', value: 'number_of_tracks' },
+      { name: 'Número de faixas', value: 'tracks' },
       { name: 'Ano de lançamento', value: 'year' },
       { name: 'Voltar ao menu inicial', value: 'back' },
     ]
@@ -31,7 +31,7 @@ export async function updateAlbum(db: IAlbumDatabase): Promise<void> {
     message: `Digite o novo valor para ${updatingOptions.get(field)}: `
   })
 
-  if (field === 'number_of_tracks') {
+  if (field === 'tracks') {
     newValue = Number(newValue)
   }
 
@@ -39,8 +39,8 @@ export async function updateAlbum(db: IAlbumDatabase): Promise<void> {
     newValue = Number(newValue)
   }
 
-  const updateData: Partial<Albums> = {
-    nameOfAlbum: inputName,
+  const updateData: Partial<Album> = {
+    name: inputName,
     [field]: newValue
   }
 

@@ -1,21 +1,21 @@
-export class Albums {
-  nameOfAlbum: string
-  genreOfAlbum: string
-  recordLabel: string
-  numberOfTracks: number
+export class Album {
+  name: string
+  genre: string
+  record_label: string
+  tracks: number
   year: number
 
   constructor(
-    nameOfAlbum: string,
-    genreOfAlbum: string,
-    recordLabel: string,
-    numberOfTracks: number,
+    name: string,
+    genre: string,
+    record_label: string,
+    tracks: number,
     year: number,
   ) {
-      this.nameOfAlbum = nameOfAlbum
-      this.genreOfAlbum = genreOfAlbum
-      this.recordLabel = recordLabel
-      this.numberOfTracks = numberOfTracks
+      this.name = name
+      this.genre = genre
+      this.record_label = record_label
+      this.tracks = tracks
       this.year = year
     }
 }

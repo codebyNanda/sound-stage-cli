@@ -7,7 +7,7 @@ export abstract class MusicBase {
   
   constructor(inputBase: InputMusicBase) {
     this._name = inputBase.name
-    this._genre = inputBase.genre as string
+    this._genre = inputBase.genre
     this._country = inputBase.country
   } 
 

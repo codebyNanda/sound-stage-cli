@@ -1,8 +1,8 @@
 import { confirm } from '@inquirer/prompts'
 import { IAlbumDatabase } from "../interfaces/iAlbumDatabase"
-import { Albums } from "../classes/albums"
+import { Album } from "../classes/albums"
 
-export async function getAlbums(db: IAlbumDatabase): Promise<Albums[]> {
+export async function getAlbums(db: IAlbumDatabase): Promise<Album[]> {
 
    const shouldList = await confirm({
     message: 'Deseja listar todos os álbuns cadastrados na Sound Stage Library?',
@@ -18,10 +18,10 @@ export async function getAlbums(db: IAlbumDatabase): Promise<Albums[]> {
   albums.forEach(item => 
     console.log(
       `
-       Nome: ${item.nameOfAlbum}
-       Gênero: ${item.genreOfAlbum}
-       Gravadora: ${item.recordLabel}
-       Número de faixas: ${item.numberOfTracks}
+       Nome: ${item.name}
+       Gênero: ${item.genre}
+       Gravadora: ${item.record_label}
+       Número de faixas: ${item.tracks}
        Ano de lançamento: ${item.year}
       `
     )

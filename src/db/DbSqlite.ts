@@ -24,22 +24,8 @@ export class DbSqlite implements IDatabaseConnector {
           name VARCHAR NOT NULL UNIQUE,  
           country VARCHAR NOT NULL,
           genre VARCHAR NOT NULL,
-          record_labels VARCHAR,
           year_of_foundation INTEGER,
           album_id INTEGER
-        );`,
-          (err) => {
-            if (err) return reject(err)
-          }
-        )
-
-        this.db.run(`CREATE TABLE IF NOT EXISTS albums (
-          album_id INTEGER PRIMARY KEY AUTOINCREMENT,  
-          name_of_album VARCHAR NOT NULL,
-          genre_of_album VARCHAR NOT NULL,
-          record_label VARCHAR,
-          number_of_tracks INTEGER NOT NULL,  
-          year INTEGER NOT NULL
         );`,
           (err) => {
             if (err) return reject(err)
@@ -63,13 +49,12 @@ export class DbSqlite implements IDatabaseConnector {
   async createArtist(artist: Artist): Promise<void> {
     return new Promise((resolve, reject) => {
       this.db.run(
-        `INSERT INTO artists (name, genre, country, record_labels, year_of_foundation) 
-        VALUES (?, ?, ?, ?, ?)`,
+        `INSERT INTO artists (name, genre, country, year_of_foundation) 
+        VALUES (?, ?, ?, ?)`,
         [
           artist.name, 
           artist.genre, 
           artist.country, 
-          artist.record_labels, 
           artist.year_of_foundation
         ],
         (err: Error | null) => {
@@ -100,7 +85,6 @@ export class DbSqlite implements IDatabaseConnector {
             genre: row.genre,
             country: row.country
           },
-          row.record_labels,
           row.year_of_foundation
         ))
 
@@ -152,7 +136,6 @@ export class DbSqlite implements IDatabaseConnector {
             genre: row.genre,
             country: row.country
           },
-          row.record_labels,
           row.year_of_foundation
         )
 
@@ -172,10 +155,6 @@ export class DbSqlite implements IDatabaseConnector {
     if (artist.genre) {
       fields.push('genre = ?')
       values.push(artist.genre)
-    }
-    if (artist.record_labels) {
-      fields.push('record_labels = ?')
-      values.push(artist.record_labels)
     }
     if (artist.year_of_foundation) {
       fields.push('year_of_foundation = ?')

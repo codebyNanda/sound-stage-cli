@@ -21,7 +21,6 @@ export async function getArtist(db: IDatabaseConnector): Promise<Artist[]> {
        Nome: ${item.name}
        País: ${item.country}
        Estilo Musical: ${item.genre}
-       Gravadora: ${item.record_labels}
        Ano de fundação: ${item.year_of_foundation}
       `
     )

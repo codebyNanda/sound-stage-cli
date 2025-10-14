@@ -1,11 +1,8 @@
 import inquirer from "inquirer"
-import { Actions } from './enum/actions'
-import { createArtist } from "./artists/createArtist"
-import { updateArtist } from "./artists/updateArtist"
-import { getArtist } from "./artists/getArtist"
+import { Operations } from './enum/actions'
 import { DbSqlite } from "./db/DbSqlite"
-import { deleteArtist } from "./artists/deleteArtist"
-import { getOneArtist } from "./artists/getOneArtist"
+import { albumsCli } from "./albumsCli"
+import { artistsCli } from "./artistsCli"
 
 export async function firstCli(): Promise<void> {
   console.log('🔥 Bem-vindo a Sound Stage Library CLI! 🔥')
@@ -17,35 +14,25 @@ export async function firstCli(): Promise<void> {
       {
         type: 'list',
         name: 'soundStagelibrary',
-        message: 'O que deseja fazer na Sound Stage Library? ',
+        message: 'O que deseja fazer? ',
         choices: [
-          Actions.CreateArtist, 
-          Actions.UpdateArtist, 
-          Actions.GetArtist, 
-          Actions.DeleteArtist,
-          Actions.GetOneArtist, 
-          Actions.Exit
+          Operations.ARTIST,
+          Operations.ALBUM,
+          Operations.EXIT
         ],
       }
     ])
     .then(async (answers) => {
       switch(answers.soundStagelibrary) {
-        case Actions.CreateArtist:
-          await createArtist(db)
+        case Operations.ARTIST:
+          console.log('Você está na seção de artistas. Por favor, escolha uma ação.')
+          await artistsCli()
           break
-        case Actions.UpdateArtist:
-          await updateArtist(db)
-          break
-        case Actions.GetArtist:
-          await getArtist(db)
-          break
-        case Actions.DeleteArtist:
-          await deleteArtist(db)
-          break
-        case Actions.GetOneArtist:
-          await getOneArtist(db)
-          break
-        case Actions.Exit:
+        case Operations.ALBUM:
+          console.log('Você está na seção de álbuns. Por favor, escolha uma ação.')
+          await albumsCli()
+          break 
+        case Operations.EXIT:
           process.exit(0)
         default:
           console.log('Opção errada! Por favor tente novamente.')
@@ -55,3 +42,6 @@ export async function firstCli(): Promise<void> {
   } 
 }
 firstCli()
+
+
+

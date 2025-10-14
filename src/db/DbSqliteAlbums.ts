@@ -1,4 +1,4 @@
-import { Albums } from "../classes/albums"
+import { Album } from "../classes/albums"
 import { IAlbumDatabase } from "../interfaces/iAlbumDatabase"
 import sqlite3 from 'sqlite3'
 
@@ -16,16 +16,46 @@ export class DbSqliteAlbums implements IAlbumDatabase {
       })
   }
 
-  async createAlbum(album: Albums): Promise<void> {
+  async init(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.db.serialize(() => {
+        this.db.run(`CREATE TABLE IF NOT EXISTS albums (
+          album_id INTEGER PRIMARY KEY AUTOINCREMENT,  
+          name VARCHAR NOT NULL,
+          genre VARCHAR NOT NULL,
+          record_label VARCHAR,
+          tracks INTEGER NOT NULL,  
+          year INTEGER NOT NULL
+        );`,
+          (err) => {
+            if (err) return reject(err)
+          }
+        )
+
+        this.db.run(`
+          CREATE INDEX IF NOT EXISTS idx_artists_name
+          ON artists (name);
+        `,
+          (err) => {
+            if (err) return reject(err)
+          }
+        )
+
+        resolve()
+      })
+    })
+  }
+
+  async createAlbum(album: Album): Promise<void> {
     return new Promise((resolve, reject) => {
       this.db.run(
-        `INSERT INTO albums (name_of_album, genre_of_album, record_label, number_of_tracks, year) 
+        `INSERT INTO albums (name, genre, record_label, tracks, year) 
         VALUES (?, ?, ?, ?, ?)`,
         [
-          album.nameOfAlbum,
-          album.genreOfAlbum,
-          album.recordLabel,
-          album.numberOfTracks,
+          album.name,
+          album.genre,
+          album.record_label,
+          album.tracks,
           album.year
         ],
         (err: Error | null) => {
@@ -40,9 +70,9 @@ export class DbSqliteAlbums implements IAlbumDatabase {
     })
   }
 
-   async getAlbums(): Promise<Albums[]> {
+   async getAlbums(): Promise<Album[]> {
     return new Promise((resolve, reject) => {
-      this.db.all<Albums>(`SELECT * FROM albums`, (err, rows) => {
+      this.db.all<Album>(`SELECT * FROM albums`, (err, rows) => {
         if (err) return reject(err)
   
         if (!rows || rows.length === 0) {
@@ -50,11 +80,11 @@ export class DbSqliteAlbums implements IAlbumDatabase {
           return resolve([])
         }
 
-        const albums = rows.map(row => new Albums(
-          row.nameOfAlbum,
-          row.genreOfAlbum,
-          row.recordLabel,
-          row.numberOfTracks,
+        const albums = rows.map(row => new Album(
+          row.name,
+          row.genre,
+          row.record_label,
+          row.tracks,
           row.year
         ))
 
@@ -63,8 +93,8 @@ export class DbSqliteAlbums implements IAlbumDatabase {
     })
   }
 
-   async updateAlbum(album: Partial<Albums>): Promise<void> {
-    if (!album.nameOfAlbum) {
+   async updateAlbum(album: Partial<Album>): Promise<void> {
+    if (!album.name) {
       throw new Error('Nome do album é obrigatório para atualizar. ⚠️')
     }
 
@@ -83,7 +113,7 @@ export class DbSqliteAlbums implements IAlbumDatabase {
     return new Promise((resolve, reject) => {
        this.db.run(
         `DELETE FROM albums
-         WHERE nameOfAlbum = ?`,
+         WHERE name = ?`,
          [nameOfAlbum],
          (err) => {
           if (err) return reject(err)
@@ -94,18 +124,18 @@ export class DbSqliteAlbums implements IAlbumDatabase {
     })
   }
 
-  async getOneAlbum(nameOfAlbum: string): Promise<Albums | null> {
+  async getOneAlbum(name: string): Promise<Album | null> {
     return new Promise((resolve, reject) => {
-      this.db.get<Albums>(`SELECT * FROM albums WHERE nameOfAlbum = ?`, [nameOfAlbum], (err, row) => {
+      this.db.get<Album>(`SELECT * FROM albums WHERE name= ?`, [name], (err, row) => {
         if (err) return reject(err)
   
         if (!row) return resolve(null)
 
-        const album = new Albums(
-          row.nameOfAlbum,
-          row.genreOfAlbum,
-          row.recordLabel,
-          row.numberOfTracks,
+        const album = new Album(
+          row.name,
+          row.genre,
+          row.record_label,
+          row.tracks,
           row.year
         )
 
@@ -114,25 +144,25 @@ export class DbSqliteAlbums implements IAlbumDatabase {
     })
   }
 
-  private generateUpdateQuery(album: Partial<Albums>): { query: string; values: (string | number)[] } {
+  private generateUpdateQuery(album: Partial<Album>): { query: string; values: (string | number)[] } {
       const fields: string[] = []
       const values: (string | number)[] = []
-  
-      if (album.nameOfAlbum) {
-        fields.push('nameOfAlbum = ?')
-        values.push(album.nameOfAlbum)
+
+      if (album.name) {
+        fields.push('name = ?')
+        values.push(album.name)
       }
-      if (album.genreOfAlbum) {
-        fields.push('genreOfAlbum = ?')
-        values.push(album.genreOfAlbum)
+      if (album.genre) {
+        fields.push('genre = ?')
+        values.push(album.genre)
       }
-      if (album.recordLabel) {
-        fields.push('recordLabel = ?')
-        values.push(album.recordLabel)
+      if (album.record_label) {
+        fields.push('record_label = ?')
+        values.push(album.record_label)
       }
-      if (album.numberOfTracks) {
-        fields.push('number_of_tracks = ?')
-        values.push(album.numberOfTracks)
+      if (album.tracks) {
+        fields.push('tracks = ?')
+        values.push(album.tracks)
       }
       if (album.year) {
         fields.push('year = ?')
@@ -148,7 +178,7 @@ export class DbSqliteAlbums implements IAlbumDatabase {
         WHERE nameOfAlbum = ?
       `
 
-      values.push(album.nameOfAlbum as string)
+      values.push(album.name as string)
 
       return { query, values }
     }

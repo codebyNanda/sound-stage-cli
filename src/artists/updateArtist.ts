@@ -9,7 +9,6 @@ export async function updateArtist(db: IDatabaseConnector): Promise<void> {
    const choices = [
       { name: 'País', value: 'country' },
       { name: 'Estilo musical', value: 'genre' },
-      { name: 'Gravadora', value: 'record_labels' },
       { name: 'Ano de fundação', value: 'year_of_foundation' },
       { name: 'Voltar ao menu inicial', value: 'back' },
     ]
