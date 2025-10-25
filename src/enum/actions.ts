@@ -4,7 +4,6 @@ export enum ArtistsActions {
   GetArtist = 'Listar todos os artistas',
   GetOneArtist = 'Buscar por um artista',
   DeleteArtist = 'Deletar artista',
-  Exit = 'Sair'
 }
 
 export enum AlbumsActions {
@@ -13,6 +12,10 @@ export enum AlbumsActions {
   GetAlbum = 'Listar todos os álbuns',
   GetOneAlbum = 'Buscar por um álbum',
   DeleteAlbum = 'Deletar álbum',
+}
+
+export enum StandartActions {
+  Back = 'Voltar ao menu de operações',
   Exit = 'Sair'
 }
 

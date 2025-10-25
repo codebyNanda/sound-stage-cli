@@ -1,52 +1,17 @@
 import { Album } from "../classes/albums"
 import { IAlbumDatabase } from "../interfaces/iAlbumDatabase"
-import sqlite3 from 'sqlite3'
+import { DbSqliteBase } from "./DbSqliteBase"
 
-export class DbSqliteAlbums implements IAlbumDatabase {
-  private db: sqlite3.Database
-
+export class DbSqliteAlbums extends DbSqliteBase implements IAlbumDatabase {
   constructor() {
-      sqlite3.verbose()
-      this.db = new sqlite3.Database('soundStageCli.db', (err) => {
-        if (err) {
-          console.error('Erro ao iniciar o banco:', err.message)
-        } else {
-          console.log('Banco criado/conectado com sucesso')
-        }
-      })
-  }
-
-  async init(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.db.serialize(() => {
-        this.db.run(`CREATE TABLE IF NOT EXISTS albums (
-          album_id INTEGER PRIMARY KEY AUTOINCREMENT,  
-          name VARCHAR NOT NULL,
-          genre VARCHAR NOT NULL,
-          record_label VARCHAR,
-          tracks INTEGER NOT NULL,  
-          year INTEGER NOT NULL
-        );`,
-          (err) => {
-            if (err) return reject(err)
-          }
-        )
-
-        this.db.run(`
-          CREATE INDEX IF NOT EXISTS idx_artists_name
-          ON artists (name);
-        `,
-          (err) => {
-            if (err) return reject(err)
-          }
-        )
-
-        resolve()
-      })
-    })
+      super()
   }
 
   async createAlbum(album: Album): Promise<void> {
+    if (!DbSqliteBase.hasBeenInitialized) {
+      await this.init()
+      DbSqliteBase.hasBeenInitialized = true
+    }
     return new Promise((resolve, reject) => {
       this.db.run(
         `INSERT INTO albums (name, genre, record_label, tracks, year) 
@@ -71,6 +36,10 @@ export class DbSqliteAlbums implements IAlbumDatabase {
   }
 
    async getAlbums(): Promise<Album[]> {
+    if (!DbSqliteBase.hasBeenInitialized) {
+      await this.init()
+      DbSqliteBase.hasBeenInitialized = true
+    }
     return new Promise((resolve, reject) => {
       this.db.all<Album>(`SELECT * FROM albums`, (err, rows) => {
         if (err) return reject(err)
@@ -94,6 +63,11 @@ export class DbSqliteAlbums implements IAlbumDatabase {
   }
 
    async updateAlbum(album: Partial<Album>): Promise<void> {
+    if (!DbSqliteBase.hasBeenInitialized) {
+      await this.init()
+      DbSqliteBase.hasBeenInitialized = true
+    }
+  
     if (!album.name) {
       throw new Error('Nome do album é obrigatório para atualizar. ⚠️')
     }
@@ -110,6 +84,10 @@ export class DbSqliteAlbums implements IAlbumDatabase {
   }
 
   async deleteAlbum(nameOfAlbum: string): Promise<void> {
+    if (!DbSqliteBase.hasBeenInitialized) {
+      await this.init()
+      DbSqliteBase.hasBeenInitialized = true
+    }
     return new Promise((resolve, reject) => {
        this.db.run(
         `DELETE FROM albums
@@ -125,6 +103,10 @@ export class DbSqliteAlbums implements IAlbumDatabase {
   }
 
   async getOneAlbum(name: string): Promise<Album | null> {
+    if (!DbSqliteBase.hasBeenInitialized) {
+      await this.init()
+      DbSqliteBase.hasBeenInitialized = true
+    }
     return new Promise((resolve, reject) => {
       this.db.get<Album>(`SELECT * FROM albums WHERE name= ?`, [name], (err, row) => {
         if (err) return reject(err)
@@ -175,7 +157,7 @@ export class DbSqliteAlbums implements IAlbumDatabase {
        const query = `
         UPDATE albums
         SET ${fields.join(', ')}
-        WHERE nameOfAlbum = ?
+        WHERE name = ?
       `
 
       values.push(album.name as string)

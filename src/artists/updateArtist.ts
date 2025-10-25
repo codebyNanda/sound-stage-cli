@@ -1,8 +1,9 @@
 import { input, rawlist } from '@inquirer/prompts'
 import { Artist } from "../classes/artist"
-import { IDatabaseConnector } from '../interfaces/iDatabaseConnector'
+import { IArtistDatabase } from '../interfaces/iArtistDatabase'
 
-export async function updateArtist(db: IDatabaseConnector): Promise<void> {
+
+export async function updateArtist(db: IArtistDatabase): Promise<void> {
 
   const inputName = await input({ message: 'Nome do artista que deseja atualizar: '})
 

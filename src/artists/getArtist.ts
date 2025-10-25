@@ -1,8 +1,8 @@
 import { Artist } from "../classes/artist"
 import { confirm } from '@inquirer/prompts'
-import { IDatabaseConnector } from "../interfaces/iDatabaseConnector"
+import { IArtistDatabase } from "../interfaces/iArtistDatabase"
 
-export async function getArtist(db: IDatabaseConnector): Promise<Artist[]> {
+export async function getArtist(db: IArtistDatabase): Promise<Artist[]> {
 
    const shouldList = await confirm({
     message: 'Deseja listar todos os artistas cadastrados na Sound Stage Library?',

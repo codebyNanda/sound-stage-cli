@@ -1,16 +1,17 @@
 import inquirer from "inquirer"
-import { ArtistsActions } from './enum/actions'
+import { ArtistsActions, StandartActions } from './enum/actions'
 import { createArtist } from "./artists/createArtist"
 import { updateArtist } from "./artists/updateArtist"
 import { getArtist } from "./artists/getArtist"
-import { DbSqlite } from "./db/DbSqlite"
+import { DbSqliteArtist } from "./db/DbSqliteArtist"
 import { deleteArtist } from "./artists/deleteArtist"
 import { getOneArtist } from "./artists/getOneArtist"
+import { firstCli } from "./cli"
 
 export async function artistsCli(): Promise<void> {
   console.log('🔥 Bem-vindo ao menu de artistas! 🔥')
 
-  const db = new DbSqlite()
+  const db = new DbSqliteArtist()
   
   while(true) {
     await inquirer.prompt([
@@ -24,7 +25,8 @@ export async function artistsCli(): Promise<void> {
           ArtistsActions.GetArtist, 
           ArtistsActions.DeleteArtist,
           ArtistsActions.GetOneArtist, 
-          ArtistsActions.Exit
+          StandartActions.Back,
+          StandartActions.Exit
         ],
       }
     ])
@@ -45,7 +47,10 @@ export async function artistsCli(): Promise<void> {
         case ArtistsActions.GetOneArtist:
           await getOneArtist(db)
           break
-        case ArtistsActions.Exit:
+        case StandartActions.Back:
+          await firstCli()
+          break
+        case StandartActions.Exit:
           process.exit(0)
         default:
           console.log('Opção errada! Por favor tente novamente.')

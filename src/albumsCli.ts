@@ -1,11 +1,12 @@
 import inquirer from "inquirer"
 import { DbSqliteAlbums } from "./db/DbSqliteAlbums"
-import { AlbumsActions } from "./enum/actions"
+import { AlbumsActions, StandartActions } from "./enum/actions"
 import { createAlbum } from "./albums/createAlbum"
 import { getOneAlbum } from "./albums/getOneAlbum"
 import { deleteAlbum } from "./albums/deleteAlbum"
 import { updateAlbum } from "./albums/updateAlbum"
 import { getAlbums } from "./albums/getAlbums"
+import { firstCli } from "./cli"
 
 export async function albumsCli(): Promise<void> {
   console.log('🔥 Bem-vindo ao menu de albuns! 🔥')
@@ -24,7 +25,8 @@ export async function albumsCli(): Promise<void> {
           AlbumsActions.GetAlbum,
           AlbumsActions.DeleteAlbum,
           AlbumsActions.GetOneAlbum,
-          AlbumsActions.Exit
+          StandartActions.Back,
+          StandartActions.Exit
         ],
       }
     ])
@@ -45,7 +47,10 @@ export async function albumsCli(): Promise<void> {
         case AlbumsActions.GetOneAlbum:
           await getOneAlbum(db)
           break
-        case AlbumsActions.Exit:
+        case StandartActions.Back:
+          await firstCli()
+          break
+        case StandartActions.Exit:
           process.exit(0)
         default:
           console.log('Opção errada! Por favor tente novamente.')

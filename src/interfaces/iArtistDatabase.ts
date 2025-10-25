@@ -1,7 +1,6 @@
 import { Artist } from "../classes/artist"
 
-export interface IDatabaseConnector {
-  init(): void
+export interface IArtistDatabase {
   createArtist(artist: Artist): Promise<void>
   getArtist(): Promise<Artist[]>
   getOneArtist(name: string): Promise<Artist | null>

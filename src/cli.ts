@@ -1,13 +1,10 @@
 import inquirer from "inquirer"
 import { Operations } from './enum/actions'
-import { DbSqlite } from "./db/DbSqlite"
 import { albumsCli } from "./albumsCli"
 import { artistsCli } from "./artistsCli"
 
 export async function firstCli(): Promise<void> {
   console.log('🔥 Bem-vindo a Sound Stage Library CLI! 🔥')
-
-  const db = new DbSqlite()
   
   while(true) {
     await inquirer.prompt([

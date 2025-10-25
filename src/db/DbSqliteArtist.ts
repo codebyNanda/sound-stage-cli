@@ -1,52 +1,17 @@
 import { Artist } from "../classes/artist"
-import { IDatabaseConnector } from "../interfaces/iDatabaseConnector"
-import sqlite3 from 'sqlite3'
+import { IArtistDatabase } from "../interfaces/iArtistDatabase"
+import { DbSqliteBase } from "./DbSqliteBase"
 
-export class DbSqlite implements IDatabaseConnector {
-  private db: sqlite3.Database
-
+export class DbSqliteArtist extends DbSqliteBase implements IArtistDatabase {
   constructor() {
-    sqlite3.verbose()
-    this.db = new sqlite3.Database('soundStageCli.db', (err) => {
-      if (err) {
-        console.error('Erro ao iniciar o banco:', err.message)
-      } else {
-        console.log('Banco criado/conectado com sucesso')
-      }
-    })
-  }
-
-  async init(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.db.serialize(() => {
-        this.db.run(`CREATE TABLE IF NOT EXISTS artists (
-          artist_id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name VARCHAR NOT NULL UNIQUE,  
-          country VARCHAR NOT NULL,
-          genre VARCHAR NOT NULL,
-          year_of_foundation INTEGER,
-          album_id INTEGER
-        );`,
-          (err) => {
-            if (err) return reject(err)
-          }
-        )
-
-        this.db.run(`
-          CREATE INDEX IF NOT EXISTS idx_artists_name
-          ON artists (name);
-        `,
-          (err) => {
-            if (err) return reject(err)
-          }
-        )
-
-        resolve()
-      })
-    })
+    super()
   }
 
   async createArtist(artist: Artist): Promise<void> {
+    if (!DbSqliteBase.hasBeenInitialized) {
+      await this.init()
+      DbSqliteBase.hasBeenInitialized = true
+    }
     return new Promise((resolve, reject) => {
       this.db.run(
         `INSERT INTO artists (name, genre, country, year_of_foundation) 
@@ -70,6 +35,10 @@ export class DbSqlite implements IDatabaseConnector {
   }
 
   async getArtist(): Promise<Artist[]> {
+    if (!DbSqliteBase.hasBeenInitialized) {
+      await this.init()
+      DbSqliteBase.hasBeenInitialized = true
+    }
     return new Promise((resolve, reject) => {
       this.db.all<Artist>(`SELECT * FROM artists`, (err, rows) => {
         if (err) return reject(err)
@@ -94,6 +63,11 @@ export class DbSqlite implements IDatabaseConnector {
   }
 
   async updateArtist(artist: Partial<Artist>): Promise<void> {
+    if (!DbSqliteBase.hasBeenInitialized) {
+      await this.init()
+      DbSqliteBase.hasBeenInitialized = true
+    }
+
     if (!artist.name) {
       throw new Error('Nome do artista é obrigatório para atualizar. ⚠️')
     }
@@ -110,6 +84,10 @@ export class DbSqlite implements IDatabaseConnector {
   }
 
   async deleteArtist(name: string): Promise<void> {
+    if (!DbSqliteBase.hasBeenInitialized) {
+      await this.init()
+      DbSqliteBase.hasBeenInitialized = true
+    }
     return new Promise((resolve, reject) => {
        this.db.run(
         `DELETE FROM artists
@@ -124,6 +102,10 @@ export class DbSqlite implements IDatabaseConnector {
   }
 
   async getOneArtist(name: string): Promise<Artist | null> {
+    if (!DbSqliteBase.hasBeenInitialized) {
+      await this.init()
+      DbSqliteBase.hasBeenInitialized = true
+    }
     return new Promise((resolve, reject) => {
       this.db.get<Artist>(`SELECT * FROM artists WHERE name = ?`, [name], (err, row) => {
         if (err) return reject(err)

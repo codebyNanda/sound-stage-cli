@@ -1,20 +1,20 @@
 import { Artist } from "../classes/artist";
-import { DbSqlite } from "./DbSqlite";
+import { DbSqliteAlbums } from "./DbSqliteAlbums";
+import { DbSqliteArtist } from "./DbSqliteArtist";
 
 async function testeDb() {
-  const db = new DbSqlite()
-  db.init()
-  // db.createArtist(
-  //   new Artist(
-  //     {
-  //       name: 'Candlemass',
-  //       country: 'Suécia',
-  //       genre: 'Doom Metal'
-  //     },
-  //     'Napalm Records',
-  //     1985
-  //   )
-  // )
+  const db = new DbSqliteAlbums()
+  const dbArtist = new DbSqliteArtist()
+  dbArtist.createArtist(
+    new Artist(
+      {
+        name: 'Candlemass',
+        country: 'Suécia',
+        genre: 'Doom Metal'
+      },
+      1985
+    )
+  )
 
   // const artists = await db.getArtist()
   // console.log(artists)

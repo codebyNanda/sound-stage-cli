@@ -1,7 +1,7 @@
-import { IDatabaseConnector } from "../interfaces/iDatabaseConnector";
-import { confirm, input } from '@inquirer/prompts';
+import { confirm, input } from '@inquirer/prompts'
+import { IArtistDatabase } from '../interfaces/iArtistDatabase'
 
-export async function deleteArtist(db: IDatabaseConnector): Promise<void> {
+export async function deleteArtist(db: IArtistDatabase): Promise<void> {
 
   const inputNameConfirm = await input({ message: 'Nome do artista que deseja deletar:' })
 

@@ -1,8 +1,8 @@
 import { Artist } from "../classes/artist"
-import { IDatabaseConnector } from "../interfaces/iDatabaseConnector"
 import { input } from '@inquirer/prompts'
+import { IArtistDatabase } from "../interfaces/iArtistDatabase"
 
-export async function getOneArtist(db: IDatabaseConnector): Promise<Artist | null> {
+export async function getOneArtist(db: IArtistDatabase): Promise<Artist | null> {
 
   const inputName = await input({ message: 'Nome do artista que deseja procurar: '})
 
