@@ -11,6 +11,14 @@ export abstract class DbSqliteBase {
         console.error('Erro ao iniciar o banco:', err.message)
       } else {
         console.log('Banco criado/conectado com sucesso')
+        // Ativa as foreign keys
+        this.db.run('PRAGMA foreign_keys = ON;', (err) => {
+          if (err) {
+            console.error('Erro ao ativar foreign keys:', err.message)
+          } else {
+            console.log('Foreign keys ativadas com sucesso.')
+          }
+        })
       }
     })
   }
@@ -23,8 +31,7 @@ export abstract class DbSqliteBase {
           name VARCHAR NOT NULL UNIQUE,  
           country VARCHAR NOT NULL,
           genre VARCHAR NOT NULL,
-          year_of_foundation INTEGER,
-          album_id INTEGER
+          year_of_foundation INTEGER
         );`,
           (err) => {
             if (err) return reject(err)
@@ -37,7 +44,9 @@ export abstract class DbSqliteBase {
           genre VARCHAR NOT NULL,
           record_label VARCHAR,
           tracks INTEGER NOT NULL,  
-          year INTEGER NOT NULL
+          year INTEGER NOT NULL,
+          artist_id INTEGER NOT NULL,
+          FOREIGN KEY (artist_id) REFERENCES artists (artist_id)
         );`,
           (err) => {
             if (err) return reject(err)

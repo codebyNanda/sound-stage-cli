@@ -12,6 +12,12 @@ export async function getOneArtist(db: IArtistDatabase): Promise<Artist | null> 
   }
 
   const artist = await db.getOneArtist(inputName)
+
+  if (!artist) {
+    console.log('Artista não encontrado em Sound Stage Library.')
+    return null
+  }
+
   console.log(`
     🎵 Artista: 
 

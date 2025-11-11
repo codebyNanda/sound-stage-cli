@@ -14,14 +14,15 @@ export class DbSqliteAlbums extends DbSqliteBase implements IAlbumDatabase {
     }
     return new Promise((resolve, reject) => {
       this.db.run(
-        `INSERT INTO albums (name, genre, record_label, tracks, year) 
-        VALUES (?, ?, ?, ?, ?)`,
+        `INSERT INTO albums (name, genre, record_label, tracks, year, artist_id) 
+        VALUES (?, ?, ?, ?, ?, ?)`,
         [
           album.name,
           album.genre,
           album.record_label,
           album.tracks,
-          album.year
+          album.year,
+          album.artist_id
         ],
         (err: Error | null) => {
           if (err) {

@@ -1,23 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Albums = void 0;
-const musicBase_1 = require("./musicBase");
-class Albums extends musicBase_1.MusicBase {
-    constructor(inputBase, nameofAlbum, year, numberOfTracks, recordLabel) {
-        super(inputBase);
-        this.nameofAlbum = nameofAlbum;
+exports.Album = void 0;
+class Album {
+    constructor(name, genre, record_label, tracks, year, artist_id) {
+        this.name = name;
+        this.genre = genre;
+        this.record_label = record_label;
+        this.tracks = tracks;
         this.year = year;
-        this.numberOfTracks = numberOfTracks;
-        this.recordLabel = recordLabel;
-    }
-    play() {
-        console.log('We are Defenders of the Faith!');
-    }
-    composedBy() {
-        console.log('Composição por :: ');
-    }
-    lyrics() {
-        console.log('Letras de todas as faixas do álbum :: ');
+        this.artist_id = artist_id;
     }
 }
-exports.Albums = Albums;
+exports.Album = Album;

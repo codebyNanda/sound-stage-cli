@@ -54,7 +54,8 @@ export class DbSqliteArtist extends DbSqliteBase implements IArtistDatabase {
             genre: row.genre,
             country: row.country
           },
-          row.year_of_foundation
+          row.year_of_foundation,
+          row.artist_id
         ))
 
         resolve(artists)
@@ -118,7 +119,8 @@ export class DbSqliteArtist extends DbSqliteBase implements IArtistDatabase {
             genre: row.genre,
             country: row.country
           },
-          row.year_of_foundation
+          row.year_of_foundation,
+          row.artist_id
         )
 
         resolve(artist)

@@ -1,5 +1,5 @@
 import inquirer from "inquirer"
-import { ArtistsActions, StandartActions } from './enum/actions'
+import { ArtistsActions, StandardActions } from './enum/actions'
 import { createArtist } from "./artists/createArtist"
 import { updateArtist } from "./artists/updateArtist"
 import { getArtist } from "./artists/getArtist"
@@ -25,8 +25,8 @@ export async function artistsCli(): Promise<void> {
           ArtistsActions.GetArtist, 
           ArtistsActions.DeleteArtist,
           ArtistsActions.GetOneArtist, 
-          StandartActions.Back,
-          StandartActions.Exit
+          StandardActions.Back,
+          StandardActions.Exit
         ],
       }
     ])
@@ -47,10 +47,10 @@ export async function artistsCli(): Promise<void> {
         case ArtistsActions.GetOneArtist:
           await getOneArtist(db)
           break
-        case StandartActions.Back:
+        case StandardActions.Back:
           await firstCli()
           break
-        case StandartActions.Exit:
+        case StandardActions.Exit:
           process.exit(0)
         default:
           console.log('Opção errada! Por favor tente novamente.')

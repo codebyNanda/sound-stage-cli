@@ -1,8 +1,19 @@
 import { input, number } from '@inquirer/prompts'
 import { IAlbumDatabase } from '../interfaces/iAlbumDatabase'
 import { Album } from '../classes/albums'
+import { IArtistDatabase } from '../interfaces/iArtistDatabase'
 
-export async function createAlbum(db: IAlbumDatabase): Promise<void> {
+export async function createAlbum(db: IAlbumDatabase, artistDb: IArtistDatabase): Promise<void> {
+
+  const nameArtist = await input({ message: 'Nome do artista do álbum que deseja cadastrar: '})
+
+  // Busca o artista pelo nome para obter o artist_id
+  const artist = await artistDb.getOneArtist(nameArtist)
+  
+  if (!artist) {
+    console.log('Artista não encontrado! Por favor, cadastre o artista antes de cadastrar o álbum.')
+    return
+  }
 
   const name = await input({ message: 'Nome do album que deseja cadastrar: '})
 
@@ -20,7 +31,8 @@ export async function createAlbum(db: IAlbumDatabase): Promise<void> {
     genre,
     record_label,
     tracks,
-    year
+    year,
+    artist.artist_id
   )
 
   return db.createAlbum(album)

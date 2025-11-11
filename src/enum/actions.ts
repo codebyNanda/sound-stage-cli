@@ -14,7 +14,7 @@ export enum AlbumsActions {
   DeleteAlbum = 'Deletar álbum',
 }
 
-export enum StandartActions {
+export enum StandardActions {
   Back = 'Voltar ao menu de operações',
   Exit = 'Sair'
 }

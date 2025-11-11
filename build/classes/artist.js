@@ -3,25 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Artist = void 0;
 const musicBase_1 = require("./musicBase");
 class Artist extends musicBase_1.MusicBase {
-    constructor(inputBase, recordLabels, yearOfFundation) {
+    constructor(inputBase, year_of_foundation, artist_id) {
         super(inputBase);
-        this._recordLabels = recordLabels;
-        this._yearOfFundation = yearOfFundation;
+        this._year_of_foundation = year_of_foundation;
+        this.artist_id = artist_id;
     }
-    get recordLabels() {
-        return this._recordLabels;
+    get year_of_foundation() {
+        return this._year_of_foundation;
     }
-    set recordLabels(value) {
-        this._recordLabels = value;
-    }
-    get yearOfFundation() {
-        return this._yearOfFundation;
-    }
-    set yearOfFundation(value) {
-        this._yearOfFundation = value;
-    }
-    addRecordLabel() {
-        console.log('Adicionando gravadora :: ');
+    set year_of_foundation(value) {
+        this._year_of_foundation = value;
     }
 }
 exports.Artist = Artist;
