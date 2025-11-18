@@ -6,4 +6,5 @@ export interface IAlbumDatabase {
   getOneAlbum(name: string): Promise<Album | null>
   updateAlbum(album: Partial<Album>): Promise<void>
   deleteAlbum(name: string): Promise<void>
+  findAllAlbumsByArtist(artistName: string): Promise<Album[]>
 }

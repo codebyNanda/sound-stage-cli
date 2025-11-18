@@ -8,6 +8,7 @@ import { deleteAlbum } from "./albums/deleteAlbum"
 import { updateAlbum } from "./albums/updateAlbum"
 import { getAlbums } from "./albums/getAlbums"
 import { firstCli } from "./cli"
+import { getAlbumsByArtist } from "./albums/getAlbumsByArtist"
 
 export async function albumsCli(): Promise<void> {
   console.log('🔥 Bem-vindo ao menu de albuns! 🔥')
@@ -27,6 +28,7 @@ export async function albumsCli(): Promise<void> {
           AlbumsActions.GetAlbum,
           AlbumsActions.DeleteAlbum,
           AlbumsActions.GetOneAlbum,
+          AlbumsActions.AlbumsByArtist,
           StandardActions.Back,
           StandardActions.Exit
         ],
@@ -48,6 +50,9 @@ export async function albumsCli(): Promise<void> {
           break
         case AlbumsActions.GetOneAlbum:
           await getOneAlbum(db)
+          break
+        case AlbumsActions.AlbumsByArtist:
+          await getAlbumsByArtist(db)
           break
         case StandardActions.Back:
           await firstCli()

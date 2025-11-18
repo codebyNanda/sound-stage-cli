@@ -19,6 +19,10 @@ function getOneArtist(db) {
             return null;
         }
         const artist = yield db.getOneArtist(inputName);
+        if (!artist) {
+            console.log('Artista não encontrado em Sound Stage Library.');
+            return null;
+        }
         console.log(`
     🎵 Artista: 
 

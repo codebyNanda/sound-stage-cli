@@ -12,6 +12,7 @@ export enum AlbumsActions {
   GetAlbum = 'Listar todos os álbuns',
   GetOneAlbum = 'Buscar por um álbum',
   DeleteAlbum = 'Deletar álbum',
+  AlbumsByArtist = 'Listar álbuns por artista'
 }
 
 export enum StandardActions {

@@ -17,8 +17,8 @@ function createAlbum(db, artistDb) {
         const nameArtist = yield (0, prompts_1.input)({ message: 'Nome do artista do álbum que deseja cadastrar: ' });
         // Busca o artista pelo nome para obter o artist_id
         const artist = yield artistDb.getOneArtist(nameArtist);
-        if (!artist || !artist.artist_id) {
-            console.log('❌ Artista não encontrado! Por favor, cadastre o artista antes de cadastrar o álbum.');
+        if (!artist) {
+            console.log('Artista não encontrado! Por favor, cadastre o artista antes de cadastrar o álbum.');
             return;
         }
         const name = yield (0, prompts_1.input)({ message: 'Nome do album que deseja cadastrar: ' });

@@ -19,6 +19,10 @@ function getOneAlbum(db) {
             return null;
         }
         const album = yield db.getOneAlbum(inputName);
+        if (!album) {
+            console.log('Álbum não encontrado em Sound Stage Library.');
+            return null;
+        }
         console.log(`
     🎵 Álbum: 
 

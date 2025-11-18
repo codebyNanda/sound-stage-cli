@@ -127,6 +127,42 @@ export class DbSqliteAlbums extends DbSqliteBase implements IAlbumDatabase {
     })
   }
 
+  async findAllAlbumsByArtist(artistName: string): Promise<Album[]> {
+    if (!DbSqliteBase.hasBeenInitialized) {
+      await this.init()
+      DbSqliteBase.hasBeenInitialized = true
+    }
+
+    return new Promise((resolve, reject) => {
+      this.db.all<Album>(
+        `SELECT albums.* 
+         FROM albums 
+         INNER JOIN artists ON albums.artist_id = artists.artist_id 
+         WHERE artists.name = ?`,
+        [artistName],
+        (err, rows) => {
+          if (err) return reject(err)
+
+          if (!rows || rows.length === 0) {
+            console.log(`Nenhum álbum encontrado para o artista "${artistName}".`)
+            return resolve([])
+          }
+
+          const albums = rows.map(row => new Album(
+            row.name,
+            row.genre,
+            row.record_label,
+            row.tracks,
+            row.year,
+            row.artist_id
+          ))
+
+          resolve(albums)
+        }
+      )
+    })
+  }
+
   private generateUpdateQuery(album: Partial<Album>): { query: string; values: (string | number)[] } {
       const fields: string[] = []
       const values: (string | number)[] = []

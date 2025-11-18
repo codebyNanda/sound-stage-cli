@@ -23,13 +23,10 @@ class DbSqliteBase {
             }
             else {
                 console.log('Banco criado/conectado com sucesso');
-                // Ativa as foreign keys
+                // Ativa as foreign keys na conexão
                 this.db.run('PRAGMA foreign_keys = ON;', (err) => {
                     if (err) {
                         console.error('Erro ao ativar foreign keys:', err.message);
-                    }
-                    else {
-                        console.log('Foreign keys ativadas com sucesso.');
                     }
                 });
             }
@@ -38,45 +35,37 @@ class DbSqliteBase {
     init() {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
-                this.db.serialize(() => {
-                    this.db.run(`CREATE TABLE IF NOT EXISTS artists (
+                this.db.run(`CREATE TABLE IF NOT EXISTS artists (
           artist_id INTEGER PRIMARY KEY AUTOINCREMENT,
           name VARCHAR NOT NULL UNIQUE,  
           country VARCHAR NOT NULL,
           genre VARCHAR NOT NULL,
           year_of_foundation INTEGER
         );`, (err) => {
-                        if (err)
-                            return reject(err);
-                    });
+                    if (err)
+                        return reject(err);
                     this.db.run(`CREATE TABLE IF NOT EXISTS albums (
-          album_id INTEGER PRIMARY KEY AUTOINCREMENT,  
-          name VARCHAR NOT NULL,
-          genre VARCHAR NOT NULL,
-          record_label VARCHAR,
-          tracks INTEGER NOT NULL,  
-          year INTEGER NOT NULL,
-          artist_id INTEGER NOT NULL,
-          FOREIGN KEY (artist_id) REFERENCES artists (artist_id)
-        );`, (err) => {
+              album_id INTEGER PRIMARY KEY AUTOINCREMENT,  
+              name VARCHAR NOT NULL,
+              genre VARCHAR NOT NULL,
+              record_label VARCHAR,
+              tracks INTEGER NOT NULL,  
+              year INTEGER NOT NULL,
+              artist_id INTEGER NOT NULL,
+              FOREIGN KEY (artist_id) REFERENCES artists (artist_id) ON DELETE CASCADE
+            );`, (err) => {
                         if (err)
                             return reject(err);
+                        this.db.run(`CREATE INDEX IF NOT EXISTS idx_artists_name ON artists (name);`, (err) => {
+                            if (err)
+                                return reject(err);
+                            this.db.run(`CREATE INDEX IF NOT EXISTS idx_albums_name ON albums (name);`, (err) => {
+                                if (err)
+                                    return reject(err);
+                                resolve();
+                            });
+                        });
                     });
-                    this.db.run(`
-          CREATE INDEX IF NOT EXISTS idx_artists_name
-          ON artists (name);
-        `, (err) => {
-                        if (err)
-                            return reject(err);
-                    });
-                    this.db.run(`
-          CREATE INDEX IF NOT EXISTS idx_albums_name
-          ON albums (name);
-        `, (err) => {
-                        if (err)
-                            return reject(err);
-                    });
-                    resolve();
                 });
             });
         });
