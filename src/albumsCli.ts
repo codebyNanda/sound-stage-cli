@@ -7,12 +7,10 @@ import { getOneAlbum } from "./albums/getOneAlbum"
 import { deleteAlbum } from "./albums/deleteAlbum"
 import { updateAlbum } from "./albums/updateAlbum"
 import { getAlbums } from "./albums/getAlbums"
-import { firstCli } from "./cli"
+import { soundStageCli } from "./cli"
 import { getAlbumsByArtist } from "./albums/getAlbumsByArtist"
 
 export async function albumsCli(): Promise<void> {
-  console.log('🔥 Bem-vindo ao menu de albuns! 🔥')
-
   const db = new DbSqliteAlbums()
   const artistDb = new DbSqliteArtist()
   
@@ -21,43 +19,43 @@ export async function albumsCli(): Promise<void> {
       {
         type: 'list',
         name: 'albumsCli',
-        message: 'O que deseja fazer? ',
+        message: 'Você está na seção de álbuns. Por favor, escolha uma ação.',
         choices: [
-          AlbumsActions.CreateAlbum,
-          AlbumsActions.UpdateAlbum,
-          AlbumsActions.GetAlbum,
-          AlbumsActions.DeleteAlbum,
-          AlbumsActions.GetOneAlbum,
-          AlbumsActions.AlbumsByArtist,
-          StandardActions.Back,
-          StandardActions.Exit
+          AlbumsActions.CREATEALBUM,
+          AlbumsActions.UPDATEALBUM,
+          AlbumsActions.GETALBUMS,
+          AlbumsActions.DELETEALBUM,
+          AlbumsActions.GETONEALBUM,
+          AlbumsActions.ALBUMSBYARTIST,
+          StandardActions.BACK,
+          StandardActions.EXIT
         ],
       }
     ])
     .then(async (answers) => {
       switch(answers.albumsCli) {
-        case AlbumsActions.CreateAlbum:
+        case AlbumsActions.CREATEALBUM:
           await createAlbum(db, artistDb)
           break
-        case AlbumsActions.UpdateAlbum:
+        case AlbumsActions.UPDATEALBUM:
           await updateAlbum(db)
           break
-        case AlbumsActions.GetAlbum:
+        case AlbumsActions.GETALBUMS:
           await getAlbums(db)
           break
-        case AlbumsActions.DeleteAlbum:
+        case AlbumsActions.DELETEALBUM:
           await deleteAlbum(db)
           break
-        case AlbumsActions.GetOneAlbum:
+        case AlbumsActions.GETONEALBUM:
           await getOneAlbum(db)
           break
-        case AlbumsActions.AlbumsByArtist:
+        case AlbumsActions.ALBUMSBYARTIST:
           await getAlbumsByArtist(db)
           break
-        case StandardActions.Back:
-          await firstCli()
+        case StandardActions.BACK:
+          await soundStageCli()
           break
-        case StandardActions.Exit:
+        case StandardActions.EXIT:
           process.exit(0)
         default:
           console.log('Opção errada! Por favor tente novamente.')

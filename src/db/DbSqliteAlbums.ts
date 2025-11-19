@@ -78,13 +78,13 @@ export class DbSqliteAlbums extends DbSqliteBase implements IAlbumDatabase {
     return new Promise((resolve, reject) => {
       this.db.run(query, values, (err) => {
         if (err) return reject(err)
-          console.log('Album atualizado com sucesso!')  
+          console.log('Album atualizado com sucesso! 🔥')  
           resolve()
       })
     })
   }
 
-  async deleteAlbum(nameOfAlbum: string): Promise<void> {
+  async deleteAlbum(name: string): Promise<void> {
     if (!DbSqliteBase.hasBeenInitialized) {
       await this.init()
       DbSqliteBase.hasBeenInitialized = true
@@ -93,7 +93,7 @@ export class DbSqliteAlbums extends DbSqliteBase implements IAlbumDatabase {
        this.db.run(
         `DELETE FROM albums
          WHERE name = ?`,
-         [nameOfAlbum],
+         [name],
          (err) => {
           if (err) return reject(err)
           console.log('Album deletado com sucesso.')

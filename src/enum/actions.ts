@@ -1,23 +1,23 @@
 export enum ArtistsActions {
-  CreateArtist = 'Criar um novo artista',
-  UpdateArtist = 'Atualizar informações do artista',
-  GetArtist = 'Listar todos os artistas',
-  GetOneArtist = 'Buscar por um artista',
-  DeleteArtist = 'Deletar artista',
+  CREATEARTIST= 'Criar um novo artista',
+  UPDATEARTIST = 'Atualizar informações do artista',
+  GETARTISTS = 'Listar todos os artistas',
+  GETONEARTIST = 'Buscar por um artista',
+  DELETEARTIST = 'Deletar artista',
 }
 
 export enum AlbumsActions {
-  CreateAlbum = 'Criar um novo álbum',
-  UpdateAlbum = 'Atualizar informações do álbum',
-  GetAlbum = 'Listar todos os álbuns',
-  GetOneAlbum = 'Buscar por um álbum',
-  DeleteAlbum = 'Deletar álbum',
-  AlbumsByArtist = 'Listar álbuns por artista'
+  CREATEALBUM = 'Criar um novo álbum',
+  UPDATEALBUM = 'Atualizar informações do álbum',
+  GETALBUMS = 'Listar todos os álbuns',
+  GETONEALBUM = 'Buscar por um álbum',
+  DELETEALBUM = 'Deletar álbum',
+  ALBUMSBYARTIST = 'Listar álbuns por artista'
 }
 
 export enum StandardActions {
-  Back = 'Voltar ao menu de operações',
-  Exit = 'Sair'
+  BACK = 'Voltar ao menu de operações',
+  EXIT = 'Sair'
 }
 
 export enum Operations {

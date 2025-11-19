@@ -5,7 +5,7 @@ import { IArtistDatabase } from "../interfaces/iArtistDatabase"
 export async function getArtist(db: IArtistDatabase): Promise<Artist[]> {
 
    const shouldList = await confirm({
-    message: 'Deseja listar todos os artistas cadastrados na Sound Stage Library?',
+    message: 'Deseja listar todos os artistas cadastrados na Sound Stage CLI?',
   })
 
   if (!shouldList) {
@@ -14,7 +14,7 @@ export async function getArtist(db: IArtistDatabase): Promise<Artist[]> {
   }
 
   const artists = await db.getArtist()
-  console.log('🎵 Artistas em Sound Stage Library: ')
+  console.log('🎵 Artistas em Sound Stage CLI: ')
   artists.forEach(item => 
     console.log(
       `

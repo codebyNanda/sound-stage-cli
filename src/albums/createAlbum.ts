@@ -5,7 +5,7 @@ import { IArtistDatabase } from '../interfaces/iArtistDatabase'
 
 export async function createAlbum(db: IAlbumDatabase, artistDb: IArtistDatabase): Promise<void> {
 
-  const nameArtist = await input({ message: 'Nome do artista do álbum que deseja cadastrar: '})
+  const nameArtist = await input({ message: 'Qual artista criou este álbum? '})
 
   // Busca o artista pelo nome para obter o artist_id
   const artist = await artistDb.getOneArtist(nameArtist)

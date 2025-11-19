@@ -3,8 +3,8 @@ import { Operations } from './enum/actions'
 import { albumsCli } from "./albumsCli"
 import { artistsCli } from "./artistsCli"
 
-export async function firstCli(): Promise<void> {
-  console.log('🔥 Bem-vindo a Sound Stage Library CLI! 🔥')
+export async function soundStageCli(): Promise<void> {
+  console.log('🔥 Bem-vindo a Sound Stage CLI! 🔥')
   
   while(true) {
     await inquirer.prompt([
@@ -22,11 +22,9 @@ export async function firstCli(): Promise<void> {
     .then(async (answers) => {
       switch(answers.soundStagelibrary) {
         case Operations.ARTIST:
-          console.log('Você está na seção de artistas. Por favor, escolha uma ação.')
           await artistsCli()
           break
         case Operations.ALBUM:
-          console.log('Você está na seção de álbuns. Por favor, escolha uma ação.')
           await albumsCli()
           break 
         case Operations.EXIT:
@@ -38,7 +36,6 @@ export async function firstCli(): Promise<void> {
     .catch((err) => console.log(err)) 
   } 
 }
-firstCli()
-
+soundStageCli()
 
 

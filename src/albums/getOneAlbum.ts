@@ -14,7 +14,7 @@ export async function getOneAlbum(db: IAlbumDatabase): Promise<Album | null> {
   const album = await db.getOneAlbum(inputName)
 
   if (!album) {
-    console.log('Álbum não encontrado em Sound Stage Library.')
+    console.log('Álbum não encontrado em Sound Stage CLI.')
     return null
   }
 

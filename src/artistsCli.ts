@@ -6,11 +6,9 @@ import { getArtist } from "./artists/getArtist"
 import { DbSqliteArtist } from "./db/DbSqliteArtist"
 import { deleteArtist } from "./artists/deleteArtist"
 import { getOneArtist } from "./artists/getOneArtist"
-import { firstCli } from "./cli"
+import { soundStageCli } from "./cli"
 
 export async function artistsCli(): Promise<void> {
-  console.log('🔥 Bem-vindo ao menu de artistas! 🔥')
-
   const db = new DbSqliteArtist()
   
   while(true) {
@@ -18,39 +16,39 @@ export async function artistsCli(): Promise<void> {
       {
         type: 'list',
         name: 'artistsCli',
-        message: 'O que deseja fazer? ',
+        message: 'Você está na seção de artistas. Por favor, escolha uma ação',
         choices: [
-          ArtistsActions.CreateArtist, 
-          ArtistsActions.UpdateArtist, 
-          ArtistsActions.GetArtist, 
-          ArtistsActions.DeleteArtist,
-          ArtistsActions.GetOneArtist, 
-          StandardActions.Back,
-          StandardActions.Exit
+          ArtistsActions.CREATEARTIST, 
+          ArtistsActions.UPDATEARTIST, 
+          ArtistsActions.GETARTISTS, 
+          ArtistsActions.DELETEARTIST,
+          ArtistsActions.GETONEARTIST, 
+          StandardActions.BACK,
+          StandardActions.EXIT
         ],
       }
     ])
     .then(async (answers) => {
       switch(answers.artistsCli) {
-        case ArtistsActions.CreateArtist:
+        case ArtistsActions.CREATEARTIST:
           await createArtist(db)
           break
-        case ArtistsActions.UpdateArtist:
+        case ArtistsActions.UPDATEARTIST:
           await updateArtist(db)
           break
-        case ArtistsActions.GetArtist:
+        case ArtistsActions.GETARTISTS:
           await getArtist(db)
           break
-        case ArtistsActions.DeleteArtist:
+        case ArtistsActions.DELETEARTIST:
           await deleteArtist(db)
           break
-        case ArtistsActions.GetOneArtist:
+        case ArtistsActions.GETONEARTIST:
           await getOneArtist(db)
           break
-        case StandardActions.Back:
-          await firstCli()
+        case StandardActions.BACK:
+          await soundStageCli()
           break
-        case StandardActions.Exit:
+        case StandardActions.EXIT:
           process.exit(0)
         default:
           console.log('Opção errada! Por favor tente novamente.')

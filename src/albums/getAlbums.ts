@@ -5,7 +5,7 @@ import { Album } from "../classes/albums"
 export async function getAlbums(db: IAlbumDatabase): Promise<Album[]> {
 
    const shouldList = await confirm({
-    message: 'Deseja listar todos os álbuns cadastrados na Sound Stage Library?',
+    message: 'Deseja listar todos os álbuns cadastrados na Sound Stage CLI?',
   })
 
   if (!shouldList) {
@@ -14,7 +14,7 @@ export async function getAlbums(db: IAlbumDatabase): Promise<Album[]> {
   }
 
   const albums = await db.getAlbums()
-  console.log('🎵 Álbuns em Sound Stage Library: ')
+  console.log('🎵 Álbuns em Sound Stage CLI: ')
   albums.forEach(item => 
     console.log(
       `
