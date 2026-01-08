@@ -2,7 +2,6 @@ import sqlite3 from 'sqlite3'
 
 export abstract class DbSqliteBase {
   protected db: sqlite3.Database
-  static hasBeenInitialized: boolean = false
 
   constructor() {
     sqlite3.verbose()

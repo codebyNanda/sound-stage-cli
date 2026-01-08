@@ -1,17 +1,15 @@
 import { Artist } from "../classes/artist"
 import { IArtistDatabase } from "../interfaces/iArtistDatabase"
 import { DbSqliteBase } from "./DbSqliteBase"
+import { EnsureInitialized } from "../decorators/ensureInitialized"
 
 export class DbSqliteArtist extends DbSqliteBase implements IArtistDatabase {
   constructor() {
     super()
   }
-
+  
+  @EnsureInitialized()
   async createArtist(artist: Artist): Promise<void> {
-    if (!DbSqliteBase.hasBeenInitialized) {
-      await this.init()
-      DbSqliteBase.hasBeenInitialized = true
-    }
     return new Promise((resolve, reject) => {
       this.db.run(
         `INSERT INTO artists (name, genre, country, year_of_foundation) 
@@ -34,11 +32,8 @@ export class DbSqliteArtist extends DbSqliteBase implements IArtistDatabase {
     })
   }
 
+  @EnsureInitialized()
   async getArtist(): Promise<Artist[]> {
-    if (!DbSqliteBase.hasBeenInitialized) {
-      await this.init()
-      DbSqliteBase.hasBeenInitialized = true
-    }
     return new Promise((resolve, reject) => {
       this.db.all<Artist>(`SELECT * FROM artists`, (err, rows) => {
         if (err) return reject(err)
@@ -63,12 +58,8 @@ export class DbSqliteArtist extends DbSqliteBase implements IArtistDatabase {
     })
   }
 
+  @EnsureInitialized()
   async updateArtist(artist: Partial<Artist>): Promise<void> {
-    if (!DbSqliteBase.hasBeenInitialized) {
-      await this.init()
-      DbSqliteBase.hasBeenInitialized = true
-    }
-
     if (!artist.name) {
       throw new Error('Nome do artista é obrigatório para atualizar. ⚠️')
     }
@@ -84,11 +75,8 @@ export class DbSqliteArtist extends DbSqliteBase implements IArtistDatabase {
     })
   }
 
+  @EnsureInitialized()
   async deleteArtist(name: string): Promise<void> {
-    if (!DbSqliteBase.hasBeenInitialized) {
-      await this.init()
-      DbSqliteBase.hasBeenInitialized = true
-    }
     return new Promise((resolve, reject) => {
        this.db.run(
         `DELETE FROM artists
@@ -102,11 +90,8 @@ export class DbSqliteArtist extends DbSqliteBase implements IArtistDatabase {
     })
   }
 
+  @EnsureInitialized()
   async getOneArtist(name: string): Promise<Artist | null> {
-    if (!DbSqliteBase.hasBeenInitialized) {
-      await this.init()
-      DbSqliteBase.hasBeenInitialized = true
-    }
     return new Promise((resolve, reject) => {
       this.db.get<Artist>(`SELECT * FROM artists WHERE name = ?`, [name], (err, row) => {
         if (err) return reject(err)

@@ -1,4 +1,5 @@
 import { Album } from "../classes/albums"
+import { EnsureInitialized } from "../decorators/ensureInitialized"
 import { IAlbumDatabase } from "../interfaces/iAlbumDatabase"
 import { DbSqliteBase } from "./DbSqliteBase"
 
@@ -7,11 +8,8 @@ export class DbSqliteAlbums extends DbSqliteBase implements IAlbumDatabase {
       super()
   }
 
+  @EnsureInitialized()
   async createAlbum(album: Album): Promise<void> {
-    if (!DbSqliteBase.hasBeenInitialized) {
-      await this.init()
-      DbSqliteBase.hasBeenInitialized = true
-    }
     return new Promise((resolve, reject) => {
       this.db.run(
         `INSERT INTO albums (name, genre, record_label, tracks, year, artist_id) 
@@ -36,11 +34,8 @@ export class DbSqliteAlbums extends DbSqliteBase implements IAlbumDatabase {
     })
   }
 
+   @EnsureInitialized()
    async getAlbums(): Promise<Album[]> {
-    if (!DbSqliteBase.hasBeenInitialized) {
-      await this.init()
-      DbSqliteBase.hasBeenInitialized = true
-    }
     return new Promise((resolve, reject) => {
       this.db.all<Album>(`SELECT * FROM albums`, (err, rows) => {
         if (err) return reject(err)
@@ -63,12 +58,8 @@ export class DbSqliteAlbums extends DbSqliteBase implements IAlbumDatabase {
     })
   }
 
+  @EnsureInitialized()
    async updateAlbum(album: Partial<Album>): Promise<void> {
-    if (!DbSqliteBase.hasBeenInitialized) {
-      await this.init()
-      DbSqliteBase.hasBeenInitialized = true
-    }
-  
     if (!album.name) {
       throw new Error('Nome do album é obrigatório para atualizar. ⚠️')
     }
@@ -84,11 +75,8 @@ export class DbSqliteAlbums extends DbSqliteBase implements IAlbumDatabase {
     })
   }
 
+  @EnsureInitialized()
   async deleteAlbum(name: string): Promise<void> {
-    if (!DbSqliteBase.hasBeenInitialized) {
-      await this.init()
-      DbSqliteBase.hasBeenInitialized = true
-    }
     return new Promise((resolve, reject) => {
        this.db.run(
         `DELETE FROM albums
@@ -103,11 +91,8 @@ export class DbSqliteAlbums extends DbSqliteBase implements IAlbumDatabase {
     })
   }
 
+  @EnsureInitialized()
   async getOneAlbum(name: string): Promise<Album | null> {
-    if (!DbSqliteBase.hasBeenInitialized) {
-      await this.init()
-      DbSqliteBase.hasBeenInitialized = true
-    }
     return new Promise((resolve, reject) => {
       this.db.get<Album>(`SELECT * FROM albums WHERE name= ?`, [name], (err, row) => {
         if (err) return reject(err)
@@ -127,12 +112,8 @@ export class DbSqliteAlbums extends DbSqliteBase implements IAlbumDatabase {
     })
   }
 
+  @EnsureInitialized()
   async findAllAlbumsByArtist(artistName: string): Promise<Album[]> {
-    if (!DbSqliteBase.hasBeenInitialized) {
-      await this.init()
-      DbSqliteBase.hasBeenInitialized = true
-    }
-
     return new Promise((resolve, reject) => {
       this.db.all<Album>(
         `SELECT albums.* 
