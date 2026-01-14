@@ -2,6 +2,7 @@ import { Artist } from "../classes/artist";
 import { DbSqliteAlbums } from "./DbSqliteAlbums";
 import { DbSqliteArtist } from "./DbSqliteArtist";
 
+// Teste de banco de dados
 async function testeDb() {
   const db = new DbSqliteAlbums()
   const dbArtist = new DbSqliteArtist()
@@ -15,24 +16,5 @@ async function testeDb() {
       1985
     )
   )
-
-  // const artists = await db.getArtist()
-  // console.log(artists)
-
-  // db.updateArtist({
-  //   genre: 'Random',
-  //   country: 'Brazil',
-  //   name: 'Teste 4',
-  //   // record_labels: 'Teste',
-  //   // year_of_foundation:0
-  // })
-
-  // db.deleteArtist({
-  //   name: 'Teste 3'
-  // })
-
-  // const artist = await db.getOneArtist('Candlemass')
-  // console.log(artist)
-
 }
 testeDb()

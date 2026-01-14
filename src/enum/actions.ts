@@ -16,8 +16,7 @@ export enum AlbumsActions {
 }
 
 export enum StandardActions {
-  BACK = 'Voltar ao menu de operações',
-  EXIT = 'Sair'
+  BACK = 'Voltar ao menu de operações'
 }
 
 export enum Operations {

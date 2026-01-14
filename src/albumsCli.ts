@@ -1,7 +1,7 @@
 import inquirer from "inquirer"
 import { DbSqliteAlbums } from "./db/DbSqliteAlbums"
 import { DbSqliteArtist } from "./db/DbSqliteArtist"
-import { AlbumsActions, StandardActions } from "./enum/actions"
+import { AlbumsActions, Operations, StandardActions } from "./enum/actions"
 import { createAlbum } from "./albums/createAlbum"
 import { getOneAlbum } from "./albums/getOneAlbum"
 import { deleteAlbum } from "./albums/deleteAlbum"
@@ -28,7 +28,7 @@ export async function albumsCli(): Promise<void> {
           AlbumsActions.GETONEALBUM,
           AlbumsActions.ALBUMSBYARTIST,
           StandardActions.BACK,
-          StandardActions.EXIT
+          Operations.EXIT
         ],
       }
     ])
@@ -55,7 +55,7 @@ export async function albumsCli(): Promise<void> {
         case StandardActions.BACK:
           await soundStageCli()
           break
-        case StandardActions.EXIT:
+        case Operations.EXIT:
           process.exit(0)
         default:
           console.log('Opção errada! Por favor tente novamente.')

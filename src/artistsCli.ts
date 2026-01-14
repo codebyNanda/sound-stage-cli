@@ -1,5 +1,5 @@
 import inquirer from "inquirer"
-import { ArtistsActions, StandardActions } from './enum/actions'
+import { ArtistsActions, Operations, StandardActions } from './enum/actions'
 import { createArtist } from "./artists/createArtist"
 import { updateArtist } from "./artists/updateArtist"
 import { getArtist } from "./artists/getArtist"
@@ -24,7 +24,7 @@ export async function artistsCli(): Promise<void> {
           ArtistsActions.DELETEARTIST,
           ArtistsActions.GETONEARTIST, 
           StandardActions.BACK,
-          StandardActions.EXIT
+          Operations.EXIT
         ],
       }
     ])
@@ -48,7 +48,7 @@ export async function artistsCli(): Promise<void> {
         case StandardActions.BACK:
           await soundStageCli()
           break
-        case StandardActions.EXIT:
+        case Operations.EXIT:
           process.exit(0)
         default:
           console.log('Opção errada! Por favor tente novamente.')
